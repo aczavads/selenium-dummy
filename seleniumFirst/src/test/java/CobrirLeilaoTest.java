@@ -1,9 +1,18 @@
 
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.util.concurrent.TimeUnit;
-import org.junit.*;
-import static org.junit.Assert.*;
-import org.openqa.selenium.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.browserlaunchers.Sleeper;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -16,9 +25,9 @@ public class CobrirLeilaoTest {
 
     @Before
     public void setUp() throws Exception {
-        driver = new FirefoxDriver(new FirefoxBinary(new File("c:\\tools\\mozilla-firefox-27\\firefox.exe")), null);
+        driver = new FirefoxDriver(new FirefoxBinary(new File("/files/Desenvolvimento/tools/browsers/firefox/firefox")), null);
         //driver = new FirefoxDriver();
-        baseUrl = "http://192.168.1.200:8080";
+        baseUrl = "http://localhost:8080";
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
@@ -27,14 +36,16 @@ public class CobrirLeilaoTest {
     public void testCobrirLeilao() throws Exception {
         driver.get(baseUrl + "/leilao/");
         driver.findElement(By.id("j_username")).clear();
-        driver.findElement(By.id("j_username")).sendKeys("arthur");
+        driver.findElement(By.id("j_username")).sendKeys("robson.alecio");
         driver.findElement(By.id("j_password")).clear();
-        driver.findElement(By.id("j_password")).sendKeys("senhaboa");
+        driver.findElement(By.id("j_password")).sendKeys("robson123");
         driver.findElement(By.id("entrar")).click();
         driver.findElement(By.id("form:entrarUsuario")).click();
-        driver.findElement(By.id("Formulario:tabelaLeiloes:0:participar")).click();
+        driver.findElement(By.id("Formulario:tabelaLeiloes:2:participar")).click();
         for (int i = 0; i < 100; i++) {
             driver.findElement(By.id("Formulario:botaoCobrir")).click();
+            System.out.println(i);
+            Sleeper.sleepTight(1000);
         }
     }
 
